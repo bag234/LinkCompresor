@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: link-compress
+    ports:
+      - "8882:8080"
+    environment:
+      - APP_DOMAIN=localhost:8882
+      - APP_DATA_MAIN=redis://redis:6390/1
+      - APP_DATA_ALIAS=redis://redis:6390/2
+      - APP_HTTPS=false
+
+  redis:
+    image: redis:8
+    container_name: redis
+    ports:
+      - "6390:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

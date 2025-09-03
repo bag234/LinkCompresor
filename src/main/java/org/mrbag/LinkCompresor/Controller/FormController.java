@@ -1,7 +1,5 @@
 package org.mrbag.LinkCompresor.Controller;
 
-import java.lang.ProcessBuilder.Redirect;
-
 import org.mrbag.LinkCompresor.LinkRepository;
 import org.mrbag.LinkCompresor.Entity.Link;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +42,7 @@ public class FormController {
 		
 		repo.put(l);
 		
-		return "redirect:/?access=" +repo.put(l);
+		return "redirect:/?access=" + repo.put(l);
 	}
 	
 	

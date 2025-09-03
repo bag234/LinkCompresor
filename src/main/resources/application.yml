@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: Link-Compresor
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+app: 
+  domain: localhost:8080
+  data-main: redis://app-user:1234@192.168.1.78:6380/1
+  data-alias: redis://app-user:1234@192.168.1.78:6380/2
+  https: false
+  

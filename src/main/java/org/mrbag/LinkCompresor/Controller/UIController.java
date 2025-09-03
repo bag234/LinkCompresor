@@ -18,11 +18,13 @@ public class UIController {
 
 	LinkRepository repo;
 	
-	String url;
+	final String url;
 	
-	@Value("${app.domain}")
-	public void setUrl(String url) {
-		this.url = String.format("https://%s/", url);
+	public UIController(
+			@Value("${app.domain}") String url, 
+			@Value("${app.https}") boolean hasHttps
+			) {
+		this.url = String.format("%s://%s/", hasHttps ? "https" : "http",  url);
 	}
 	
 	@Autowired

@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "app.domain",
+    "type": "java.lang.String",
+    "description": "Domen run with app 'app.domain'"
+  },
+  {
+    "name": "app.https",
+    "type": "java.lang.Boolean",
+    "description": "Use https in href 'app.https'"
+  },
+  {
+    "name": "app.data-alias",
+    "type": "java.lang.String",
+    "description": "Connect to store alias 'app.data-alias'"
+  },
+  {
+    "name": "app.data-main",
+    "type": "java.lang.String",
+    "description": "Connect to main store 'app.data-main'"
+  }
+]}
