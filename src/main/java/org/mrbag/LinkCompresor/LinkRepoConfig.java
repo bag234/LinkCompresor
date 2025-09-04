@@ -68,7 +68,6 @@ public class LinkRepoConfig {
 	}
 	
 	@Bean
-	//XXX only test;
 	IStringKeyGenerator configKeyGenerator() {
 		return new XorShiftStringGenerator(0);
 	}

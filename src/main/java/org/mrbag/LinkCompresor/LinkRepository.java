@@ -29,7 +29,6 @@ public class LinkRepository {
 	}
 	
 	public String put(Link link) {
-		// FIXME add check self redirect
 		if(alias.hasKey(link.getLink())) {
 			return alias.opsForValue().get(link.getLink()); 
 		}

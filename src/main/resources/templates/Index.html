@@ -63,7 +63,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: url('background.jpg');
+            background-image: url('img/background.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -121,12 +121,18 @@
 </head>
 <body>
     <div class="card">
-        <form action="/form/add" method="post" >
+
+        <!-- Информационный блок -->
+        <div style="background:#e3f2fd;border-radius:6px;padding:16px;margin-bottom:20px;color:#1976d2;font-size:16px;">
+            <h3 >Link Compressor</h3> <p th:utext="${info}">Простой сервис для сокращения ссылок (Simple Service to Compress Link)</p>
+        </div>
+
+        <form action="/form/add" method="post" >    
             <div class="form-group">
                 <input type="url" name="Link" placeholder="Enter your link" required class="input-field">
             </div>
             
-            <button type="button" class="show-advanced" onclick="toggleAdvanced()">Show advanced options</button>
+            <button type="button" class="show-advanced" onclick="toggleAdvanced()" th:text="#{other.message}">Show advanced options</button>
             
             <div class="advanced-options" id="advancedOptions">
                 <div class="form-group">
@@ -163,7 +169,6 @@
         </form>
     </div>
 
-
     <div id="linkModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -172,6 +177,10 @@
             <button onclick="copyToClipboard()" class="copy-btn">Copy Link</button>
         </div>
     </div>
+
+    <footer style="width:100%;position:fixed;bottom:0;left:0;background:rgba(255,255,255,0.95);border-top:1px solid #eee;text-align:center;padding:12px 0;font-size:15px;color:#1976d2;letter-spacing:0.5px;">
+        Link Compressor &copy; 2025 &mdash; <a href="mailto: link-compressor@mrbag.org" style="color:#1976d2;text-decoration:none;">link-compressor@mrbag.org</a>
+    </footer>
 
     <script>
         function toggleAdvanced() {

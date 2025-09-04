@@ -1,5 +1,5 @@
 # Используем официальный образ OpenJDK
-FROM openjdk:21-jdk-alpine
+FROM openjdk:21-jdk
 
 # Указываем рабочую директорию
 WORKDIR /app
