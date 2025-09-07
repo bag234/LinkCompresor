@@ -1,67 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Page</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ошибка 404</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-        @keyframes rainbow {
-            0% { color: #ff0000; }
-            20% { color: #ffff00; }
-            40% { color: #00ff00; }
-            60% { color: #00ffff; }
-            80% { color: #0000ff; }
-            100% { color: #ff0000; }
-        }
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #7209b7;
+      --primary-dark: #2a3bb5;
+      --dark: #0f172a;
+      --gray: #94a3b8;
+      --border-radius: 16px;
+      --transition: 0.3s ease;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background-image: url('img/background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
 
-        .error-text {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding-left: 10vw;
-            text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.9);
-            height: 80vh;
-        }
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
 
-        .error-text span {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12vw;
-            line-height: 1;
-            text-align: left;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            animation: rainbow 8s linear infinite;
-        }
+    .error-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      padding: 60px 40px;
+      max-width: 650px;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+      animation: floatBox 6s ease-in-out infinite;
+    }
 
-        .error-text span:nth-child(2) {
-            animation-delay: -2.6s;
-        }
+    .error-title {
+      font-size: 7rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 
+        0 0 15px var(--primary),
+        0 0 30px var(--secondary),
+        0 0 60px var(--primary);
+      animation: pulse 3s infinite, glitch 2s infinite;
+      position: relative;
+      margin-bottom: 15px;
+    }
 
-        .error-text span:nth-child(3) {
-            animation-delay: -5.2s;
-        }
-    </style>
+    .error-title::before,
+    .error-title::after {
+      content: "404";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      color: var(--primary);
+      clip: rect(0, 0, 0, 0);
+    }
+
+    .error-title::before {
+      animation: glitchTop 2s infinite;
+      color: #ff00ff;
+    }
+
+    .error-title::after {
+      animation: glitchBottom 2s infinite;
+      color: #00ffff;
+    }
+
+    .error-subtitle {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--gray);
+      margin-bottom: 35px;
+      overflow: hidden;
+      border-right: .12em solid var(--primary);
+      white-space: nowrap;
+      margin: 0 auto 35px;
+      letter-spacing: .05em;
+      animation: typing 4s steps(30, end), blink .8s infinite step-end alternate;
+    }
+
+    .home-button {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      transition: var(--transition);
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 2s ease forwards;
+    }
+
+    .home-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .home-button:hover::before {
+      left: 100%;
+    }
+
+    .home-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.5);
+    }
+
+    @keyframes floatBox {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 15px var(--primary), 0 0 30px var(--secondary), 0 0 60px var(--primary); }
+      50% { text-shadow: 0 0 25px var(--secondary), 0 0 50px var(--primary), 0 0 80px var(--secondary); }
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glitch {
+      0% { transform: none; opacity: 1; }
+      20% { transform: skew(-5deg); }
+      40% { transform: skew(5deg); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); opacity: 0.8; }
+      100% { transform: none; opacity: 1; }
+    }
+
+    @keyframes glitchTop {
+      0% { clip: rect(0, 9999px, 0, 0); }
+      10% { clip: rect(10px, 9999px, 60px, 0); transform: translate(-2px, -2px); }
+      20% { clip: rect(85px, 9999px, 140px, 0); transform: translate(2px, 2px); }
+      30% { clip: rect(0, 9999px, 0, 0); }
+    }
+
+    @keyframes glitchBottom {
+      0% { clip: rect(0, 9999px, 0, 0); }
+      10% { clip: rect(140px, 9999px, 190px, 0); transform: translate(2px, -2px); }
+      20% { clip: rect(45px, 9999px, 80px, 0); transform: translate(-2px, 2px); }
+      30% { clip: rect(0, 9999px, 0, 0); }
+    }
+  </style>
 </head>
 <body>
-    <div class="error-text">
-        <span>PAGE</span>
-        <span>NOT</span>
-        <span>FOUND</span>
-    </div>
+  <canvas id="particles"></canvas>
+
+  <div class="error-box">
+    <div class="error-title">404</div>
+    <div class="error-subtitle">Страница не найдена</div>
+    <button class="home-button" onclick="window.location.href='index.html'">Вернуться на главную</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles = [];
+    const particleCount = 70;
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 3 + 1,
+        speed: Math.random() * 1.2 + 0.5,
+        direction: Math.random() * Math.PI * 2,
+        hue: Math.random() * 60 + 200
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 130) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      particles.forEach(p => {
+        p.x += Math.cos(p.direction) * p.speed;
+        p.y += Math.sin(p.direction) * p.speed;
+
+        if (p.x < 0 || p.x > canvas.width) p.direction = Math.PI - p.direction;
+        if (p.y < 0 || p.y > canvas.height) p.direction = -p.direction;
+
+        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+        gradient.addColorStop(0, `hsla(${p.hue}, 70%, 70%, 0.8)`);
+        gradient.addColorStop(1, `hsla(${p.hue}, 70%, 70%, 0)`);
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
 </body>
 </html>

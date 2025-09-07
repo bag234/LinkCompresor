@@ -3,9 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Compressor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Link Compressor | Shorten Your URLs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #eef2ff;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --error: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --border-radius: 20px;
+            --border-radius-sm: 10px;
+            --box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 20px 45px rgba(0, 0, 0, 0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            background: #0f172a;
+        }
+
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0;
+            animation: fadeIn 1.0s ease-out forwards;
+            animation-delay: 0.1s;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+            z-index: -1;
+            opacity: 0;
+        }
+
+        @keyframes gradientReveal {
+            0% {
+                opacity: 0;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+            }
+            100% {
+                opacity: 1;
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 0.7s ease-out forwards;
+            animation-delay: 0.1s;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .logo h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            color: #e0e7ff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 6s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #e0e7ff 100%);
+            border-radius: var(--border-radius);
+            padding: 28px;
+            margin-bottom: 35px;
+            border-left: 5px solid var(--primary);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: translateX(-100%);
+        }
+
+        .info-box:hover::after {
+            animation: shine 0.7s ease;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .info-box:hover {
+            transform: translateX(8px);
+        }
+
+        .info-box h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.4rem;
+        }
+
+        .info-box p {
+            color: var(--gray);
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 20px 18px 55px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-size: 17px;
+            transition: var(--transition);
+            background-color: rgba(248, 249, 250, 0.8);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        .show-advanced {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            background: none;
+            border: none;
+            padding: 14px 0;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            transition: var(--transition);
+            border-radius: var(--border-radius-sm);
+            position: relative;
+        }
+
+        .show-advanced:hover {
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 14px 18px;
+            margin-left: -18px;
+            margin-right: -18px;
+        }
+
+        .advanced-options {
+            display: none;
+            margin-top: 25px;
+            padding: 28px;
+            background: rgba(248, 249, 250, 0.7);
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--primary);
+            animation: fadeIn 0.5s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+        }
+
+        .checkbox-group:hover {
+            background: rgba(67, 97, 238, 0.08);
+        }
+
+        .checkbox-group label {
+            font-size: 16px;
+            color: var(--gray);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 28px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 20px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to right, var(--primary-dark), #6509a5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -14,187 +384,580 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.6);
             justify-content: center;
             align-items: center;
-        }
-        .modal-content {
-            background: white;
-            padding: 24px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-        }
-        .modal-link {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin: 16px 0;
-            font-size: 16px;
-            user-select: all;
-        }
-        .copy-btn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .copy-btn:hover {
-            background-color: #45a049;
-        }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
-            cursor: pointer;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.4s ease;
         }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: url('img/background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color-scheme: light dark;
-            background-color: #f5f5f5;
-            overflow: hidden;
-        }
-        .card {
+        .modal-content {
             background: white;
-            padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 540px;
+            text-align: center;
+            box-shadow: var(--box-shadow-hover);
+            position: relative;
+            animation: scaleIn 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content h2 {
+            margin-bottom: 30px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 1.9rem;
+        }
+
+        .modal-link-container {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .modal-link {
             width: 100%;
-            max-width: 500px;
+            padding: 18px 65px 18px 25px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            font-size: 17px;
+            background-color: var(--light);
+            user-select: all;
+            font-weight: 500;
+            transition: var(--transition);
         }
-        .form-group {
-            margin-bottom: 16px;
+
+        .modal-link:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
         }
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
-        .submit-btn {
-            background-color: #1976d2;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
+
+        .copy-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
             cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-        }
-        .submit-btn:hover {
-            background-color: #1565c0;
-        }
-        .advanced-options {
-            display: none;
-            margin-top: 16px;
-        }
-        .show-advanced {
-            color: #1976d2;
+            transition: var(--transition);
             background: none;
             border: none;
-            padding: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: underline;
+            font-size: 22px;
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 2;
         }
+
+        .copy-icon:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 26px;
+            cursor: pointer;
+            color: var(--gray);
+            background: none;
+            border: none;
+            transition: var(--transition);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .close-btn:hover {
+            color: var(--dark);
+            background: var(--gray-light);
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: white;
+            font-size: 16px;
+            opacity: 0.9;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1.5s;
+            opacity: 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+        }
+
+        footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        footer a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 576px) {
+            .card {
+                padding: 30px 25px;
+            }
+            
+            .logo h1 {
+                font-size: 2.4rem;
+            }
+            
+            .input-field {
+                padding: 16px 16px 16px 50px;
+            }
+            
+            .info-box {
+                padding: 22px;
+            }
+            
+            .modal-content {
+                padding: 30px 25px;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .submit-btn {
+                padding: 18px 24px;
+            }
+        }
+
+        .loader {
+            display: none;
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.7s ease-in-out infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .copy-notification {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            color: white;
+            padding: 15px 30px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--box-shadow);
+            display: none;
+            animation: slideUp 0.5s ease;
+            z-index: 1100;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes slideUp {
+            from { bottom: 0; opacity: 0; }
+            to { bottom: 40px; opacity: 1; }
+        }
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px; /* расстояние между блоками */
+    margin-top: 50px;
+    text-align: center;
+    color: #fff;
+    animation: fadeIn 0.7s ease forwards;
+    animation-delay: 0.7s;
+    opacity: 0;
+    width: 100%;
+    flex-wrap: nowrap; /* всегда в строку */
+    font-family: 'Poppins', sans-serif;
+}
+
+.stat {
+    min-width: 140px;
+}
+
+.stat-number {
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #ffffff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* тонкая линия под числом */
+    padding-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.85;
+    margin-top: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Анимация появления */
+@keyframes countUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.counting-number {
+    animation: countUp 1.2s ease-out forwards;
+    opacity: 0;
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 24px 18px;
+    }
+
+    .logo h1 {
+        font-size: 2rem;
+        gap: 8px;
+    }
+
+    .logo p {
+        font-size: 1.05rem;
+    }
+
+    .input-field {
+        font-size: 15px;
+        padding: 14px 14px 14px 44px;
+    }
+
+    .info-box {
+        padding: 18px;
+    }
+
+    .modal-content {
+        padding: 24px 18px;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: center;   
+        align-items: center;      
+        gap: 25px;
+        margin-top: 30px;
+        flex-wrap: nowrap;        
+    }
+
+    .stat {
+        min-width: 90px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .submit-btn {
+        font-size: 16px;
+        padding: 14px 20px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo h1 {
+        font-size: 1.6rem;
+    }
+
+    .logo p {
+        font-size: 0.95rem;
+    }
+
+    .input-field {
+        font-size: 14px;
+        padding: 12px 12px 12px 40px;
+    }
+
+    .submit-btn {
+        font-size: 15px;
+        padding: 12px 18px;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: center;   
+        align-items: center;
+        gap: 18px;
+        margin-top: 20px;
+        flex-wrap: nowrap;         
+    }
+
+    .stat {
+        min-width: 80px;
+    }
+
+    .stat-number {
+        font-size: 1.6rem;
+    }
+
+    .stat-label {
+        font-size: 0.8rem;
+    }
+
+    footer {
+        font-size: 14px;
+        padding: 18px;
+    }
+}
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="gradient-overlay"></div>
+    <div class="canvas-container">
+        <canvas id="backgroundCanvas"></canvas>
+    </div>
 
-        <!-- Информационный блок -->
-        <div style="background:#e3f2fd;border-radius:6px;padding:16px;margin-bottom:20px;color:#1976d2;font-size:16px;">
-            <h3 >Link Compressor</h3> <p th:utext="${info}">Простой сервис для сокращения ссылок (Simple Service to Compress Link)</p>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fas fa-link"></i> Link Compressor</h1>
+            <p>Shorten your links in seconds</p>
         </div>
 
-        <form action="/form/add" method="post" >    
-            <div class="form-group">
-                <input type="url" name="Link" placeholder="Enter your link" required class="input-field">
-            </div>
-            
-            <button type="button" class="show-advanced" onclick="toggleAdvanced()" th:text="#{other.message}">Show advanced options</button>
-            
-            <div class="advanced-options" id="advancedOptions">
-                <div class="form-group">
-                    <input type="text" id="uid" name="UID" placeholder="Device UID" class="input-field" readonly>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="Skeep" value="true"> Skip verification
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" name="First" value="true"> First entry
-                    </label>
+        <div class="card">
+            <div class="card-content">
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Link Compressor</h3>
+                    <p>Простой сервис для сокращения ссылок (Simple Service to Compress Link)</p>
                 </div>
 
-                <script>
-                    window.addEventListener("DOMContentLoaded", function () {
-                    document.getElementById("uid").value = "browser$" + 
-                        navigator.userAgent + "$" +
-                        navigator.language + "$" +
-                        navigator.platform + "$" +
-                        navigator.deviceMemory + "GB$" +
-                        navigator.hardwareConcurrency + "cores$" +
-                        window.screen.colorDepth + "bit$" +
-                        navigator.connection?.effectiveType + "$" +
-                        navigator.doNotTrack;
-                    });
-                  </script>
-
+                <form action="/form/add" method="post" id="linkForm">    
+                    <div class="form-group">
+                        <i class="fas fa-link input-icon"></i>
+                        <input type="url" name="Link" placeholder="Paste your long URL here" required class="input-field">
+                    </div>
+                    
+                    <button type="button" class="show-advanced" onclick="toggleAdvanced()">
+                        <i class="fas fa-cog"></i> Advanced Options
+                    </button>
+                    
+                    <div class="advanced-options" id="advancedOptions">
+                        <div class="form-group">
+                            <i class="fas fa-fingerprint input-icon"></i>
+                            <input type="text" id="uid" name="UID" placeholder="Device UID" class="input-field" readonly>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="skeep" name="Skeep" value="true">
+                            <label for="skeep">Skip verification</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="first" name="First" value="true">
+                            <label for="first">First entry</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <span class="loader" id="loader"></span>
+                        <i class="fas fa-compress-alt"></i> Compress Link
+                    </button>
+                </form>
             </div>
-            
-            <button type="submit" class="submit-btn">Compress Link</button>
-        </form>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-number">
+                    <span id="count1" class="counting-number">0</span><span> M+</span>
+                </div>
+                <div class="stat-label">Links Compressed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">
+                    <span id="count2" class="counting-number">0</span><span>%</span>
+                </div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">
+                    <span id="count3" class="counting-number">0</span><span>%</span>
+                </div>
+                <div class="stat-label">Stability</div>
+            </div>
+        </div>
     </div>
 
     <div id="linkModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Your Compressed Link</h2>
-            <input type="text" id="compressedLink" class="modal-link" readonly>
-            <button onclick="copyToClipboard()" class="copy-btn">Copy Link</button>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2><i class="fas fa-link"></i> Your Compressed Link</h2>
+            <div class="modal-link-container">
+                <input type="text" id="compressedLink" class="modal-link" readonly>
+                <button onclick="copyToClipboard()" class="copy-icon">
+                    <i class="far fa-copy"></i>
+                </button>
+            </div>
+            <button onclick="copyToClipboard()" class="submit-btn">
+                <i class="fas fa-copy"></i> Copy Link
+            </button>
         </div>
     </div>
 
-    <footer style="width:100%;position:fixed;bottom:0;left:0;background:rgba(255,255,255,0.95);border-top:1px solid #eee;text-align:center;padding:12px 0;font-size:15px;color:#1976d2;letter-spacing:0.5px;">
-        Link Compressor &copy; 2025 &mdash; <a href="mailto: link-compressor@mrbag.org" style="color:#1976d2;text-decoration:none;">link-compressor@mrbag.org</a>
+    <div id="copyNotification" class="copy-notification">
+        <i class="fas fa-check-circle"></i> Link copied to clipboard!
+    </div>
+
+    <footer>
+        Link Compressor &copy; 2025 &mdash; <a href="mailto:link-compressor@mrbag.org">link-compressor@mrbag.org</a>
     </footer>
 
     <script>
+        function initBackground() {
+            const canvas = document.getElementById('backgroundCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            const particles = [];
+            const particleCount = 60;
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 3 + 1,
+                    speed: Math.random() * 2 + 0.5,
+                    direction: Math.random() * Math.PI * 2,
+                    hue: Math.random() * 60 + 200
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.lineWidth = 1;
+                
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                particles.forEach(particle => {
+                    // Движение частиц
+                    particle.x += Math.cos(particle.direction) * particle.speed;
+                    particle.y += Math.sin(particle.direction) * particle.speed;
+                    
+                    // Отскок от границ
+                    if (particle.x < 0 || particle.x > canvas.width) {
+                        particle.direction = Math.PI - particle.direction;
+                    }
+                    if (particle.y < 0 || particle.y > canvas.height) {
+                        particle.direction = -particle.direction;
+                    }
+                    
+                    const gradient = ctx.createRadialGradient(
+                        particle.x, particle.y, 0,
+                        particle.x, particle.y, particle.radius
+                    );
+                    gradient.addColorStop(0, `hsla(${particle.hue}, 70%, 70%, 0.8)`);
+                    gradient.addColorStop(1, `hsla(${particle.hue}, 70%, 70%, 0)`);
+                    
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        window.addEventListener("DOMContentLoaded", function () {
+            initBackground();
+            
+            document.getElementById("uid").value = "browser$" + 
+                navigator.userAgent + "$" +
+                navigator.language + "$" +
+                navigator.platform + "$" +
+                (navigator.deviceMemory || "unknown") + "GB$" +
+                (navigator.hardwareConcurrency || "unknown") + "cores$" +
+                window.screen.colorDepth + "bit$" +
+                (navigator.connection?.effectiveType || "unknown") + "$" +
+                (navigator.doNotTrack || "unknown");
+                
+            setTimeout(animateCountingNumbers, 1500);
+        });
+
         function toggleAdvanced() {
             const advancedOptions = document.getElementById('advancedOptions');
-            advancedOptions.style.display = advancedOptions.style.display === 'none' ? 'block' : 'none';
+            const isVisible = advancedOptions.style.display === 'block';
+            
+            advancedOptions.style.display = isVisible ? 'none' : 'block';
+            
+            const icon = document.querySelector('.show-advanced i');
+            if (isVisible) {
+                icon.className = 'fas fa-cog';
+            } else {
+                icon.className = 'fas fa-chevron-up';
+            }
         }
 
-         // Проверяем параметр access в URL
-         window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const accessCode = urlParams.get('access');
             
             if (accessCode) {
-    
                 showModalWithLink('[[${url}]]' + accessCode);
             }
         });
@@ -204,7 +967,7 @@
             const linkInput = document.getElementById('compressedLink');
             
             linkInput.value = link;
-            modal.style.display = 'flex'
+            modal.style.display = 'flex';
         }
 
         function closeModal() {
@@ -216,12 +979,53 @@
             linkInput.select();
             document.execCommand('copy');
             
-
-            const btn = document.querySelector('.copy-btn');
-            btn.textContent = 'Copied!';
+            const notification = document.getElementById('copyNotification');
+            notification.style.display = 'block';
+            
             setTimeout(() => {
-                btn.textContent = 'Copy Link';
+                notification.style.display = 'none';
             }, 2000);
+        }
+
+        function animateCountingNumbers() {
+            const finalValues = [2.5, 99.9, 100];
+            const durations = [2200, 1800, 1200];
+            const counters = [
+                document.getElementById('count1'),
+                document.getElementById('count2'),
+                document.getElementById('count3')
+            ];
+            
+            counters.forEach((counter, index) => {
+                const finalValue = finalValues[index];
+                const duration = durations[index];
+                const startTime = performance.now();
+                const isDecimal = finalValue % 1 !== 0;
+                
+                function updateCounter(currentTime) {
+                    const elapsedTime = currentTime - startTime;
+                    const progress = Math.min(elapsedTime / duration, 1);
+                    
+                    let currentValue;
+                    if (isDecimal) {
+                        currentValue = (finalValue * progress).toFixed(1);
+                    } else {
+                        currentValue = Math.floor(finalValue * progress);
+                    }
+                    
+                    if (!isDecimal) {
+                        currentValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                    
+                    counter.textContent = currentValue;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+                
+                requestAnimationFrame(updateCounter);
+            });
         }
     </script>
 </body>

@@ -4,41 +4,147 @@
   <meta charset="UTF-8">
   <title>Переадресация...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #7209b7;
+      --primary-dark: #2a3bb5;
+      --dark: #0f172a;
+      --gray: #94a3b8;
+      --border-radius: 14px;
+      --transition: 0.3s ease;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
-      padding-top: 100px;
+      padding: 20px;
+      overflow: hidden;
     }
-    .redirect-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      background-color: #007BFF;
+
+    /* Canvas для частиц */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .redirect-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--border-radius);
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 1s ease forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    .redirect-box h1 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    #countdown {
+      font-weight: 700;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    #wait-text {
+      font-size: 1rem;
+      color: var(--gray);
+      margin: 15px 0 25px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .redirect-button,
+    .home-button,
+    .back-button {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
       color: white;
-      border-radius: 5px;
+      padding: 14px 26px;
+      border: none;
+      border-radius: var(--border-radius);
       cursor: pointer;
-      display: none; /* Скрыта изначально */
+      font-size: 16px;
+      font-weight: 600;
+      transition: var(--transition);
+      letter-spacing: 0.5px;
     }
-    .redirect-button:hover {
-      background-color: #0056b3;
+
+    .redirect-button,
+    .home-button {
+      display: none;
+    }
+
+    .redirect-button:hover,
+    .home-button:hover,
+    .back-button:hover {
+      background: linear-gradient(to right, var(--primary-dark), #6509a5);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+    }
+
+    .redirect-button:active,
+    .home-button:active,
+    .back-button:active {
+      transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <h1>Вы будете перенаправлены через <span id="countdown">10</span> секунд...</h1>
-  <p id="wait-text">Пожалуйста, подождите...</p>
-  <button id="redirectBtn" class="redirect-button">Перейти сейчас</button>
+  <canvas id="particles"></canvas>
+
+  <div class="redirect-box">
+    <h1>Вы будете перенаправлены через <span id="countdown">10</span> секунд...</h1>
+    <p id="wait-text">Пожалуйста, подождите...</p>
+    <div class="buttons">
+      <button id="redirectBtn" class="redirect-button">Перейти сейчас</button>
+      <button id="backBtn" class="back-button"  onclick="window.location.href='index.html'">Вернуться назад</button>
+    </div>
+  </div>
 
   <script th:inline="javascript">
     /*<![CDATA[*/
     let countdown = 10;
     const countdownEl = document.getElementById('countdown');
     const redirectBtn = document.getElementById('redirectBtn');
+    const backBtn = document.getElementById('backBtn');
     const waitText = document.getElementById('wait-text');
 
     const redirectUrl = [[${Link.link}]];
+    const homeUrl = "";
 
     const timer = setInterval(() => {
       countdown--;
@@ -47,11 +153,10 @@
       if (countdown <= 0) {
         clearInterval(timer);
 
-        // Показываем кнопку
         redirectBtn.style.display = 'inline-block';
-        waitText.textContent = 'Если вы не были перенаправлены, нажмите кнопку ниже:';
+        homeBtn.style.display = 'inline-block';
+        waitText.textContent = 'Если вы не были перенаправлены, используйте кнопки ниже:';
 
-        // Автоматический переход
         window.location.href = redirectUrl;
       }
     }, 1000);
@@ -59,7 +164,79 @@
     redirectBtn.addEventListener('click', () => {
       window.location.href = redirectUrl;
     });
+
+
+    backBtn.addEventListener('click', () => {
+      window.history.back();
+    });
     /*]]>*/
+  </script>
+
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const particles = [];
+    const particleCount = 70;
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 3 + 1,
+        speed: Math.random() * 1.5 + 0.5,
+        direction: Math.random() * Math.PI * 2,
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1;
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      particles.forEach(particle => {
+        particle.x += Math.cos(particle.direction) * particle.speed;
+        particle.y += Math.sin(particle.direction) * particle.speed;
+
+        if (particle.x < 0 || particle.x > canvas.width) {
+          particle.direction = Math.PI - particle.direction;
+        }
+        if (particle.y < 0 || particle.y > canvas.height) {
+          particle.direction = -particle.direction;
+        }
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.8)";
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
   </script>
 </body>
 </html>
