@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,6 +85,7 @@
                 opacity: 0;
                 clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
             }
+
             100% {
                 opacity: 1;
                 clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -154,8 +156,13 @@
         }
 
         @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
         }
 
         .card-content {
@@ -195,7 +202,9 @@
         }
 
         @keyframes shine {
-            100% { transform: translateX(100%); }
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         .info-box:hover {
@@ -291,13 +300,27 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .checkbox-group {
@@ -384,7 +407,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
+            background-color: rgba(0, 0, 0, 0.6);
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(8px);
@@ -405,8 +428,15 @@
         }
 
         @keyframes scaleIn {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .modal-content h2 {
@@ -528,28 +558,28 @@
             .card {
                 padding: 30px 25px;
             }
-            
+
             .logo h1 {
                 font-size: 2.4rem;
             }
-            
+
             .input-field {
                 padding: 16px 16px 16px 50px;
             }
-            
+
             .info-box {
                 padding: 22px;
             }
-            
+
             .modal-content {
                 padding: 30px 25px;
             }
-            
+
             .stats-container {
                 flex-direction: column;
                 gap: 20px;
             }
-            
+
             .submit-btn {
                 padding: 18px 24px;
             }
@@ -567,7 +597,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .copy-notification {
@@ -589,162 +621,174 @@
         }
 
         @keyframes slideUp {
-            from { bottom: 0; opacity: 0; }
-            to { bottom: 40px; opacity: 1; }
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 40px;
+                opacity: 1;
+            }
         }
 
-.stats-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 60px; /* расстояние между блоками */
-    margin-top: 50px;
-    text-align: center;
-    color: #fff;
-    animation: fadeIn 0.7s ease forwards;
-    animation-delay: 0.7s;
-    opacity: 0;
-    width: 100%;
-    flex-wrap: nowrap; /* всегда в строку */
-    font-family: 'Poppins', sans-serif;
-}
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 60px;
+            /* расстояние между блоками */
+            margin-top: 50px;
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 0.7s ease forwards;
+            animation-delay: 0.7s;
+            opacity: 0;
+            width: 100%;
+            flex-wrap: nowrap;
+            /* всегда в строку */
+            font-family: 'Poppins', sans-serif;
+        }
 
-.stat {
-    min-width: 140px;
-}
+        .stat {
+            min-width: 140px;
+        }
 
-.stat-number {
-    font-size: 2.8rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #ffffff;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2); /* тонкая линия под числом */
-    padding-bottom: 6px;
-}
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            /* тонкая линия под числом */
+            padding-bottom: 6px;
+        }
 
-.stat-label {
-    font-size: 1rem;
-    opacity: 0.85;
-    margin-top: 8px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-}
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.85;
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
 
-/* Анимация появления */
-@keyframes countUp {
-    from { 
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        /* Анимация появления */
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-.counting-number {
-    animation: countUp 1.2s ease-out forwards;
-    opacity: 0;
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-@media (max-width: 576px) {
-    .card {
-        padding: 24px 18px;
-    }
+        .counting-number {
+            animation: countUp 1.2s ease-out forwards;
+            opacity: 0;
+        }
 
-    .logo h1 {
-        font-size: 2rem;
-        gap: 8px;
-    }
+        @media (max-width: 576px) {
+            .card {
+                padding: 24px 18px;
+            }
 
-    .logo p {
-        font-size: 1.05rem;
-    }
+            .logo h1 {
+                font-size: 2rem;
+                gap: 8px;
+            }
 
-    .input-field {
-        font-size: 15px;
-        padding: 14px 14px 14px 44px;
-    }
+            .logo p {
+                font-size: 1.05rem;
+            }
 
-    .info-box {
-        padding: 18px;
-    }
+            .input-field {
+                font-size: 15px;
+                padding: 14px 14px 14px 44px;
+            }
 
-    .modal-content {
-        padding: 24px 18px;
-    }
+            .info-box {
+                padding: 18px;
+            }
 
-    .stats-container {
-        display: flex;
-        justify-content: center;   
-        align-items: center;      
-        gap: 25px;
-        margin-top: 30px;
-        flex-wrap: nowrap;        
-    }
+            .modal-content {
+                padding: 24px 18px;
+            }
 
-    .stat {
-        min-width: 90px;
-    }
+            .stats-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 25px;
+                margin-top: 30px;
+                flex-wrap: nowrap;
+            }
 
-    .stat-number {
-        font-size: 2rem;
-    }
+            .stat {
+                min-width: 90px;
+            }
 
-    .submit-btn {
-        font-size: 16px;
-        padding: 14px 20px;
-        gap: 12px;
-    }
-}
+            .stat-number {
+                font-size: 2rem;
+            }
 
-@media (max-width: 480px) {
-    .logo h1 {
-        font-size: 1.6rem;
-    }
+            .submit-btn {
+                font-size: 16px;
+                padding: 14px 20px;
+                gap: 12px;
+            }
+        }
 
-    .logo p {
-        font-size: 0.95rem;
-    }
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.6rem;
+            }
 
-    .input-field {
-        font-size: 14px;
-        padding: 12px 12px 12px 40px;
-    }
+            .logo p {
+                font-size: 0.95rem;
+            }
 
-    .submit-btn {
-        font-size: 15px;
-        padding: 12px 18px;
-    }
+            .input-field {
+                font-size: 14px;
+                padding: 12px 12px 12px 40px;
+            }
 
-    .stats-container {
-        display: flex;
-        justify-content: center;   
-        align-items: center;
-        gap: 18px;
-        margin-top: 20px;
-        flex-wrap: nowrap;         
-    }
+            .submit-btn {
+                font-size: 15px;
+                padding: 12px 18px;
+            }
 
-    .stat {
-        min-width: 80px;
-    }
+            .stats-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 18px;
+                margin-top: 20px;
+                flex-wrap: nowrap;
+            }
 
-    .stat-number {
-        font-size: 1.6rem;
-    }
+            .stat {
+                min-width: 80px;
+            }
 
-    .stat-label {
-        font-size: 0.8rem;
-    }
+            .stat-number {
+                font-size: 1.6rem;
+            }
 
-    footer {
-        font-size: 14px;
-        padding: 18px;
-    }
-}
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            footer {
+                font-size: 14px;
+                padding: 18px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="gradient-overlay"></div>
     <div class="canvas-container">
@@ -754,30 +798,33 @@
     <div class="container">
         <div class="logo">
             <h1><i class="fas fa-link"></i> Link Compressor</h1>
-            <p>Shorten your links in seconds</p>
+            <p th:text="#{main.info.message}">Shorten your links in seconds</p>
         </div>
 
         <div class="card">
             <div class="card-content">
                 <div class="info-box">
                     <h3><i class="fas fa-info-circle"></i> Link Compressor</h3>
-                    <p>Простой сервис для сокращения ссылок (Simple Service to Compress Link)</p>
+                    <p th:text="${info}">Простой сервис для сокращения ссылок (Simple Service to Compress Link)</p>
                 </div>
 
-                <form action="/form/add" method="post" id="linkForm">    
+                <form action="/form/add" method="post" id="linkForm">
                     <div class="form-group">
                         <i class="fas fa-link input-icon"></i>
-                        <input type="url" name="Link" placeholder="Paste your long URL here" required class="input-field">
+                        <input type="url" name="Link" placeholder="Paste your long URL here" required
+                            class="input-field">
                     </div>
-                    
+
                     <button type="button" class="show-advanced" onclick="toggleAdvanced()">
-                        <i class="fas fa-cog"></i> Advanced Options
+                        <i class="fas fa-cog"></i>
+                        <p th:text="#{main.button.advanced}"> Advanced Options </p>
                     </button>
-                    
+
                     <div class="advanced-options" id="advancedOptions">
                         <div class="form-group">
                             <i class="fas fa-fingerprint input-icon"></i>
-                            <input type="text" id="uid" name="UID" placeholder="Device UID" class="input-field" readonly>
+                            <input type="text" id="uid" name="UID" placeholder="Device UID" class="input-field"
+                                readonly>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="skeep" name="Skeep" value="true">
@@ -788,10 +835,11 @@
                             <label for="first">First entry</label>
                         </div>
                     </div>
-                    
+
                     <button type="submit" class="submit-btn">
                         <span class="loader" id="loader"></span>
-                        <i class="fas fa-compress-alt"></i> Compress Link
+                        <i class="fas fa-compress-alt"></i>
+                        <p th:text="#{main.button.compressedLink}">Compress Link</p>
                     </button>
                 </form>
             </div>
@@ -822,7 +870,9 @@
     <div id="linkModal" class="modal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h2><i class="fas fa-link"></i> Your Compressed Link</h2>
+            <h2><i class="fas fa-link"></i>
+                <p th:text="#{main.message.copy}">Your Compressed Link</p>
+            </h2>
             <div class="modal-link-container">
                 <input type="text" id="compressedLink" class="modal-link" readonly>
                 <button onclick="copyToClipboard()" class="copy-icon">
@@ -830,13 +880,28 @@
                 </button>
             </div>
             <button onclick="copyToClipboard()" class="submit-btn">
-                <i class="fas fa-copy"></i> Copy Link
+                <i class="fas fa-copy"></i>
+                <p th:text="#{main.button.copy}"> Copy Link </p>
+            </button>
+        </div>
+    </div>
+
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2><i class="fas fa-exclamation-triangle"></i> Ошибка</h2>
+            <div class="modal-error-container">
+                <p id="errorMessage"> Произошла ошибка. Попробуйте снова.</p>
+            </div>
+            <button onclick="closeModal()" class="submit-btn">
+                <i class="fas fa-times"></i> Закрыть
             </button>
         </div>
     </div>
 
     <div id="copyNotification" class="copy-notification">
-        <i class="fas fa-check-circle"></i> Link copied to clipboard!
+        <i class="fas fa-check-circle"></i>
+        <p th:text="#{main.info.copy}"> Link copied to clipboard! </p>
     </div>
 
     <footer>
@@ -847,18 +912,18 @@
         function initBackground() {
             const canvas = document.getElementById('backgroundCanvas');
             const ctx = canvas.getContext('2d');
-            
+
             function resizeCanvas() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-            
+
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
-            
+
             const particles = [];
             const particleCount = 60;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
@@ -869,19 +934,19 @@
                     hue: Math.random() * 60 + 200
                 });
             }
-            
+
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
+
                 ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
                 ctx.lineWidth = 1;
-                
+
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
                         const dx = particles[i].x - particles[j].x;
                         const dy = particles[i].y - particles[j].y;
                         const distance = Math.sqrt(dx * dx + dy * dy);
-                        
+
                         if (distance < 100) {
                             ctx.beginPath();
                             ctx.moveTo(particles[i].x, particles[i].y);
@@ -890,12 +955,12 @@
                         }
                     }
                 }
-                
+
                 particles.forEach(particle => {
                     // Движение частиц
                     particle.x += Math.cos(particle.direction) * particle.speed;
                     particle.y += Math.sin(particle.direction) * particle.speed;
-                    
+
                     // Отскок от границ
                     if (particle.x < 0 || particle.x > canvas.width) {
                         particle.direction = Math.PI - particle.direction;
@@ -903,30 +968,30 @@
                     if (particle.y < 0 || particle.y > canvas.height) {
                         particle.direction = -particle.direction;
                     }
-                    
+
                     const gradient = ctx.createRadialGradient(
                         particle.x, particle.y, 0,
                         particle.x, particle.y, particle.radius
                     );
                     gradient.addColorStop(0, `hsla(${particle.hue}, 70%, 70%, 0.8)`);
                     gradient.addColorStop(1, `hsla(${particle.hue}, 70%, 70%, 0)`);
-                    
+
                     ctx.beginPath();
                     ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
                     ctx.fillStyle = gradient;
                     ctx.fill();
                 });
-                
+
                 requestAnimationFrame(animate);
             }
-            
+
             animate();
         }
-        
+
         window.addEventListener("DOMContentLoaded", function () {
             initBackground();
-            
-            document.getElementById("uid").value = "browser$" + 
+
+            document.getElementById("uid").value = "browser$" +
                 navigator.userAgent + "$" +
                 navigator.language + "$" +
                 navigator.platform + "$" +
@@ -935,16 +1000,16 @@
                 window.screen.colorDepth + "bit$" +
                 (navigator.connection?.effectiveType || "unknown") + "$" +
                 (navigator.doNotTrack || "unknown");
-                
+
             setTimeout(animateCountingNumbers, 1500);
         });
 
         function toggleAdvanced() {
             const advancedOptions = document.getElementById('advancedOptions');
             const isVisible = advancedOptions.style.display === 'block';
-            
+
             advancedOptions.style.display = isVisible ? 'none' : 'block';
-            
+
             const icon = document.querySelector('.show-advanced i');
             if (isVisible) {
                 icon.className = 'fas fa-cog';
@@ -953,35 +1018,52 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', function () {
             const urlParams = new URLSearchParams(window.location.search);
             const accessCode = urlParams.get('access');
-            
+
             if (accessCode) {
                 showModalWithLink('[[${url}]]' + accessCode);
             }
         });
 
+
+        window.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorCode = urlParams.get('error')
+
+            if (errorCode) {
+                showModalWithLinkError();
+            }
+        });
+
+        function showModalWithLinkError(link) {
+            const modal = document.getElementById('errorModal');
+            modal.style.display = 'flex';
+        }
+
+
         function showModalWithLink(link) {
             const modal = document.getElementById('linkModal');
             const linkInput = document.getElementById('compressedLink');
-            
+
             linkInput.value = link;
             modal.style.display = 'flex';
         }
 
         function closeModal() {
             document.getElementById('linkModal').style.display = 'none';
+            document.getElementById('errorModal').style.display = 'none';
         }
 
         function copyToClipboard() {
             const linkInput = document.getElementById('compressedLink');
             linkInput.select();
             document.execCommand('copy');
-            
+
             const notification = document.getElementById('copyNotification');
             notification.style.display = 'block';
-            
+
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 2000);
@@ -995,38 +1077,39 @@
                 document.getElementById('count2'),
                 document.getElementById('count3')
             ];
-            
+
             counters.forEach((counter, index) => {
                 const finalValue = finalValues[index];
                 const duration = durations[index];
                 const startTime = performance.now();
                 const isDecimal = finalValue % 1 !== 0;
-                
+
                 function updateCounter(currentTime) {
                     const elapsedTime = currentTime - startTime;
                     const progress = Math.min(elapsedTime / duration, 1);
-                    
+
                     let currentValue;
                     if (isDecimal) {
                         currentValue = (finalValue * progress).toFixed(1);
                     } else {
                         currentValue = Math.floor(finalValue * progress);
                     }
-                    
+
                     if (!isDecimal) {
                         currentValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     }
-                    
+
                     counter.textContent = currentValue;
-                    
+
                     if (progress < 1) {
                         requestAnimationFrame(updateCounter);
                     }
                 }
-                
+
                 requestAnimationFrame(updateCounter);
             });
         }
     </script>
 </body>
+
 </html>

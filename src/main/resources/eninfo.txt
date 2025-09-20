@@ -1,4 +1,6 @@
-Test 1
-Test 2
-Test 3
-test 4
+The service converts long URLs into short links
+Makes it easy to share compact and user-friendly links
+Simplifies link sharing on social networks and messengers
+Generates unique short addresses for your pages
+Provides quick access to resources via shortened links
+Optimizes long URLs for better user convenience
