@@ -9,20 +9,14 @@ pipeline {
         REPO_URL = "git@github.com:bag234/LinkCompresor.git"
         REPO_BRANCH = "master"
 
-        REMOTE_DIR = "conveer"
+        REMOTE_DIR = "link-comp"
         SSH_SERVER = "deploy-ssh"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: '${REPO_BRANCH}', credentialsId: '9ef5277f-8146-4070-863e-73936eab46e7', url: '${REPO_URL}'
-            }
-        }
-
-        stage ('java test') {
-            steps {
-                sh 'mvn test'
+                git branch: 'master', credentialsId: '9ef5277f-8146-4070-863e-73936eab46e7', url: 'git@github.com:bag234/LinkCompresor.git'
             }
         }
 
@@ -44,38 +38,38 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: "${SSH_SERVER}",
-                            transfers: [
-                                sshTransfer(
-                                    sourceFiles: "docker-compose.yml",
-                                    remoteDirectory: "${REMOTE_DIR}",
-                                    execCommand: """
-                                        docker-compose pull && docker-compose up -d
-                                    """
-                                )
-                                sshTransfer(
-                                    sourceFiles: "nginx.conf",
-                                    remoteDirectory: "${REMOTE_DIR}",
-                                    remoteFileName: "${REMOTE_DIR}.nginx.conf",
-                                    execCommand: """
-                                        mv ${REMOTE_DIR}/${REMOTE_DIR}.nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
-                                        ln -sf /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
-                                        nginx -t && nginx -s reload 
-                                    """
-                                )
-                            ],
-                            usePromotionTimestamp: false,
-                            useWorkspaceInPromotion: false,
-                            verbose: true
+    steps {
+        sshPublisher(
+            publishers: [
+                sshPublisherDesc(
+                    configName: "${SSH_SERVER}",
+                    transfers: [
+                        sshTransfer(
+                            sourceFiles: "docker-compose.yml",
+                            remoteDirectory: "${REMOTE_DIR}",
+                            execCommand: """
+                                cd ${REMOTE_DIR} && docker-compose pull && docker-compose up -d
+                            """
+                        ),
+                        sshTransfer(
+                            sourceFiles: "nginx.conf",
+                            remoteDirectory: "${REMOTE_DIR}",
+                            remoteFileName: "${REMOTE_DIR}.nginx.conf",
+                            execCommand: """
+                                mv ${REMOTE_DIR}/${REMOTE_DIR}.nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
+                                ln -sf /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
+                                nginx -t && nginx -s reload
+                            """
                         )
-                    ]
+                    ],
+                    usePromotionTimestamp: false,
+                    useWorkspaceInPromotion: false,
+                    verbose: true
                 )
-            }
-        }
+            ]
+        )
+    }
+}
     }
 
     post {
