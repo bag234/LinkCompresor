@@ -48,7 +48,7 @@ pipeline {
                             sourceFiles: "docker-compose.yml",
                             remoteDirectory: "${REMOTE_DIR}",
                             execCommand: """
-                                cd ${REMOTE_DIR} && docker-compose pull && docker-compose up -d
+                                cd ${REMOTE_DIR} && docker compose pull && docker compose up -d
                             """
                         ),
                         sshTransfer(

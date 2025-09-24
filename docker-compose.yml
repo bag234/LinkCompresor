@@ -4,7 +4,6 @@ services:
   app:
     image: localhost:5500/link-comp:latest
     container_name: link-compress
-    container_name: link-compress
     ports:
       - "8884:8080"
     environment:
