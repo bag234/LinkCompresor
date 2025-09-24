@@ -11,9 +11,9 @@ services:
       - APP_DOMAIN=localhost:8882
       - APP_DATA_MAIN=redis://redis:6379/1
       - APP_DATA_ALIAS=redis://redis:6379/2
-      - boot_admin_client_url=http://10.13.5.108:8084
-      - boot_admin_client_username=app
-      - boot_admin_client_password=app-supet-p@22w0rd
+      - BOOT_ADMIN_CLIENT_URL=http://10.13.5.108:8084
+      - BOOT_ADMIN_CLIENT_USERNAME=app
+      - BOOT_ADMIN_CLIENT_PASSWORD=app-supet-p@22w0rd
       - APP_HTTPS=false
 
   redis:
