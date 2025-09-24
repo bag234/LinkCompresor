@@ -39,8 +39,12 @@ public class FormController {
 				.isSkeep(isSkeep)
 				.isAd(!isFirst)
 				.build();
-		
-		repo.put(l);
+		try {
+			repo.put(l);
+		}
+		catch (Exception e) {
+			return "redirect:/?error=rerty";
+		}
 		
 		return "redirect:/?access=" + repo.put(l);
 	}

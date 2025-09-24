@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class LinkRepository {
 
 	private final RedisTemplate<String, Link> template;  
@@ -33,8 +36,14 @@ public class LinkRepository {
 			return alias.opsForValue().get(link.getLink()); 
 		}
 		
-		for (int i = 0; i < MAX_STEP_UNIQUE && template.hasKey(generator.get()); i++) {
+		int i = 0;
+		while(template.hasKey(generator.get())) {
 			generator.next();
+			if (i >= MAX_STEP_UNIQUE) {
+				log.warn("OWERFLOW List for save data");
+			
+				throw new RuntimeException("Wrong data, pleas late");
+			}
 		}
 		
 		alias.opsForValue().set(link.getLink(), generator.get());
