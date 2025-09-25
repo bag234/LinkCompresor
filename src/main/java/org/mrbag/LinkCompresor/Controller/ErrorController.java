@@ -7,7 +7,7 @@ public class ErrorController {
 
 	@GetMapping(value = "/error")
 	public String getMethodName(Model model) {
-		return "Error";
+		return "error";
 	}
 
 }
