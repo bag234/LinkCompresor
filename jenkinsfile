@@ -56,8 +56,8 @@ pipeline {
                             remoteDirectory: "${REMOTE_DIR}",
                             remoteFileName: "${REMOTE_DIR}.nginx.conf",
                             execCommand: """
-                                mv ${REMOTE_DIR}/${REMOTE_DIR}.nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
-                                ln -sf /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
+                                mv ${REMOTE_DIR}.nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
+                                ln -s /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
                                 nginx -t && nginx -s reload
                             """
                         )
