@@ -57,7 +57,7 @@ pipeline {
                             execCommand: """
                                 mv ~/${REMOTE_DIR}/nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
                                 ln -s /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
-                                nginx -t && nginx -s reload
+                                sudo nginx -t && sudo nginx -s reload
                             """
                         )
                     ],
