@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'devops', credentialsId: '9ef5277f-8146-4070-863e-73936eab46e7', url: 'git@github.com:bag234/LinkCompresor.git'
+                git branch: 'master', credentialsId: '9ef5277f-8146-4070-863e-73936eab46e7', url: 'git@github.com:bag234/LinkCompresor.git'
             }
         }
 
