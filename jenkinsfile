@@ -22,7 +22,7 @@ pipeline {
 
         stage ('java build') {
             steps {
-                sh 'mvn clean compile package -DskipTests'
+                sh 'mvn clean package -U -DskipTests'
             }
         }
 
