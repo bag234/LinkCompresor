@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /cart/
+
+Allow: /
+
+Sitemap: https://l.mrbag.org/sitemap.xml
+Host: l.mrbag.org

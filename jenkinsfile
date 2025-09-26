@@ -59,6 +59,27 @@ pipeline {
                                 ln -sf /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
                                 sudo nginx -t && sudo nginx -s reload
                             """
+                        ),
+                        sshTransfer(
+                            sourceFiles: "Link.ico",
+                            remoteDirectory: "${REMOTE_DIR}",
+                            execCommand: """
+                                mv ~/${REMOTE_DIR}/Link.ico /var/www/favico/Link.ico
+                            """
+                        ),
+                        sshTransfer(
+                            sourceFiles: "robot.txt",
+                            remoteDirectory: "${REMOTE_DIR}",
+                            execCommand: """
+                                mv ~/${REMOTE_DIR}/robot.txt /var/www/Link/robot.txt
+                            """
+                        ),
+                        sshTransfer(
+                            sourceFiles: "sitemap.xml",
+                            remoteDirectory: "${REMOTE_DIR}",
+                            execCommand: """
+                                mv ~/${REMOTE_DIR}/sitemap.xml /var/www/Link/sitemap.xml
+                            """
                         )
                     ],
                     usePromotionTimestamp: false,
