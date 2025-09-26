@@ -55,6 +55,9 @@ public class UIController {
 	
 	@GetMapping("/{id}")
 	public String redirectToPageConntroller(@PathVariable("id") String id, Model model) {
+		if(id.equals("Error"))
+			return "Error";
+		
 		if(id.length() != 5)
 			return "redirect:/";
 	
@@ -71,7 +74,7 @@ public class UIController {
 			}
 		}
 		
-		return "redirect:/error?type=\"ID NOT VALID\"";
+		return "redirect:/Error?type=\"ID NOT VALID\"";
 	}
 	
 }
