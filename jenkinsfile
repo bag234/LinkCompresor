@@ -68,10 +68,10 @@ pipeline {
                             """
                         ),
                         sshTransfer(
-                            sourceFiles: "robot.txt",
+                            sourceFiles: "robots.txt",
                             remoteDirectory: "${REMOTE_DIR}",
                             execCommand: """
-                                mv ~/${REMOTE_DIR}/robot.txt /var/www/Link/robot.txt
+                                mv ~/${REMOTE_DIR}/robots.txt /var/www/Link/robots.txt
                             """
                         ),
                         sshTransfer(
