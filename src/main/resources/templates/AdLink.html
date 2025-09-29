@@ -119,6 +119,28 @@
       transform: translateY(0);
     }
 
+    .banner-left, .banner-right {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 160px;
+  height: 600px;
+  z-index: 9999;
+}
+
+.banner-left {
+  left: 10px;
+}
+
+.banner-right {
+  right: 10px;
+}
+@media (max-width: 1024px) {
+  .banner-left, .banner-right {
+    display: none;
+  }
+}
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -137,16 +159,32 @@
     </div>
   </div>
 
-  <!-- Yandex.RTB R-A-17351148-1 -->
-<div id="yandex_rtb_R-A-17351148-1"></div>
-<script>
-window.yaContextCb.push(() => {
-    Ya.Context.AdvManager.render({
-        "blockId": "R-A-17351148-1",
-        "renderTo": "yandex_rtb_R-A-17351148-1"
-    })
-})
+  <div class="banner-left">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '4ba6d68c42287f469036e08f7a649cab',
+      'format' : 'iframe',
+      'height' : 600,
+      'width' : 160,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/4ba6d68c42287f469036e08f7a649cab/invoke.js"></script>
+</div>
+
+<!-- Правый баннер -->
+<div class="banner-right">
+  <script type="text/javascript">
+	atOptions = {
+		'key' : 'd38dbae1683832c938e829b19146d82e',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
 </script>
+<script type="text/javascript" src="//www.highperformanceformat.com/d38dbae1683832c938e829b19146d82e/invoke.js"></script>
+</div>
   
   <script th:inline="javascript">
     /*<![CDATA[*/
