@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <title>Переадресация...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Yandex.RTB -->
-<script>window.yaContextCb=window.yaContextCb||[]</script>
-<script src="https://yandex.ru/ads/system/context.js" async></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -153,6 +150,16 @@
   <div class="redirect-box">
     <h1><span th:text="#{redirect.header}">Вы будете перенаправлены через </span> <span id="countdown">10</span> <span th:text="#{redirect.header.seconds}">секунд...</span></h1>
     <p id="wait-text" th:text="#{redirect.wait}">Пожалуйста, подождите...</p>
+    <script type="text/javascript">
+	atOptions = {
+		'key' : '1446b0cc2ac2c82e4092e9252bce8d51',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/1446b0cc2ac2c82e4092e9252bce8d51/invoke.js"></script>
     <div class="buttons">
       <button id="redirectBtn" class="redirect-button" th:text="#{redirect.go}">Перейти сейчас</button>
       <button id="backBtn" class="back-button" th:text="#{redirect.back}" onclick="window.location.href='index.html'">Вернуться назад</button>
