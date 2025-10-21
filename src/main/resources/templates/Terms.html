@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Условия использования - Link Compressor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #eef2ff;
+            --secondary: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --border-radius: 20px;
+            --border-radius-sm: 10px;
+            --box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 20px 45px rgba(0, 0, 0, 0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--dark);
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gradient-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 0.7s ease-out forwards;
+            animation-delay: 0.1s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .nav-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gradient);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(30, 60, 114, 0.4);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease 0.2s forwards;
+        }
+
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: var(--transition);
+        }
+
+        .hero-badge:hover::before {
+            left: 100%;
+        }
+
+        .hero-badge i {
+            font-size: 16px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button i {
+            font-size: 16px;
+        }
+
+        .page-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 100%;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .page-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 6s infinite linear;
+            z-index: 0;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .page-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .page-card h1 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .page-card h2 {
+            color: var(--primary);
+            margin: 40px 0 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-card p {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .page-card ul {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 25px;
+            padding-left: 20px;
+        }
+
+        .page-card li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .page-card li:before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+        }
+
+        .back-button {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(to right, var(--primary-dark), #6509a5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: white;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+        }
+
+        footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        footer a:hover::after {
+            width: 100%;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-container {
+                top: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 13px;
+                border-radius: 14px;
+            }
+
+            .page-card {
+                padding: 30px 20px;
+                margin-top: 60px;
+            }
+
+            .page-card h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+
+            .nav-button {
+                margin: 0;
+            }
+
+            footer {
+                font-size: 14px;
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-overlay"></div>
+    <div class="canvas-container">
+        <canvas id="backgroundCanvas"></canvas>
+    </div>
+
+    <!-- Навигация -->
+    <div class="nav-container">
+        <a href="index.html" class="nav-button">
+            <i class="fas fa-home"></i>
+            Главная
+        </a>
+        <a href="about.html" class="nav-button">
+            <i class="fas fa-info-circle"></i>
+            О нас
+        </a>
+    </div>
+
+    <div class="container">
+        <!-- Добавленный элемент hero-badge -->
+        <div class="hero-badge">
+            <i class="fas fa-rocket"></i>
+            MRBAG STUDIO
+        </div>
+        
+        <div class="page-card">
+            <div class="page-content">
+                <h1><i class="fas fa-file-contract"></i> Условия использования</h1>
+                
+                <p>Пожалуйста, внимательно ознакомьтесь с условиями использования сервиса Link Compressor перед началом работы. Используя наш сервис, вы соглашаетесь с этими условиями.</p>
+                
+                <h2><i class="fas fa-check-circle"></i> 1. Принятие условий</h2>
+                <p>Используя наш сервис, вы соглашаетесь с настоящими условиями использования. Если вы не согласны с какими-либо положениями, пожалуйста, не используйте наш сервис. Мы оставляем за собой право изменять эти условия в любое время.</p>
+                
+                <h2><i class="fas fa-ban"></i> 2. Правила использования</h2>
+                <p>Запрещается использовать сервис для:</p>
+                <ul>
+                    <li>Создания ссылок на незаконный контент или материалы, нарушающие авторские права</li>
+                    <li>Распространения вредоносного программного обеспечения, вирусов или другого вредоносного кода</li>
+                    <li>Фишинговых атак, мошеннических схем и социальной инженерии</li>
+                    <li>Рассылки спама, нежелательных коммерческих сообщений</li>
+                    <li>Любой деятельности, нарушающей законодательство вашей страны или международное право</li>
+                    <li>Распространения контента, пропагандирующего насилие, ненависть или дискриминацию</li>
+                </ul>
+                
+                <h2><i class="fas fa-exclamation-triangle"></i> 3. Ограничение ответственности</h2>
+                <p>Мы не несем ответственности за содержание ссылок, созданных с помощью нашего сервиса. Пользователи несут полную ответственность за контент, на который ведут сокращенные ссылки. Мы оставляем за собой право блокировать любые ссылки, которые нарушают наши условия использования.</p>
+                
+                <h2><i class="fas fa-sync-alt"></i> 4. Изменения в сервисе</h2>
+                <p>Мы оставляем за собой право изменять функциональность сервиса, приостанавливать или прекращать его работу в любое время без предварительного уведомления. Мы не гарантируем постоянную доступность сервиса и не несем ответственности за любые убытки, вызванные его недоступностью.</p>
+                
+                <h2><i class="fas fa-shield-alt"></i> 5. Конфиденциальность</h2>
+                <p>Мы уважаем вашу конфиденциальность и обязуемся защищать ваши личные данные в соответствии с нашей Политикой конфиденциальности. Мы собираем минимально необходимую информацию для работы сервиса и не передаем ее третьим лицам без вашего согласия.</p>
+                
+                <h2><i class="fas fa-copyright"></i> 6. Интеллектуальная собственность</h2>
+                <p>Все права на сервис Link Compressor, включая дизайн, логотип и программный код, принадлежат их владельцам и защищены законодательством об интеллектуальной собственности. Вы не можете копировать, модифицировать или распространять скрипт нашего сервиса без нашего явного разрешения.</p>
+                
+                <h2><i class="fas fa-envelope"></i> 7. Контактная информация</h2>
+                <p>Если у вас есть вопросы относительно этих условий, пожалуйста, свяжитесь с нами по адресу: <a href="mailto:link-compressor@mrbag.org">link-compressor@mrbag.org</a>. Мы постараемся ответить на ваше сообщение в кратчайшие сроки.</p>
+                
+                <p><strong>Дата последнего обновления:</strong> 21 октября 2025 года</p>
+                
+                <a href="index.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i> На главную
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initBackground() {
+            const canvas = document.getElementById('backgroundCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const particles = [];
+            const particleCount = 60;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 3 + 1,
+                    speed: Math.random() * 2 + 0.5,
+                    direction: Math.random() * Math.PI * 2,
+                    hue: Math.random() * 60 + 200
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                particles.forEach(particle => {
+                    particle.x += Math.cos(particle.direction) * particle.speed;
+                    particle.y += Math.sin(particle.direction) * particle.speed;
+
+                    if (particle.x < 0 || particle.x > canvas.width) {
+                        particle.direction = Math.PI - particle.direction;
+                    }
+                    if (particle.y < 0 || particle.y > canvas.height) {
+                        particle.direction = -particle.direction;
+                    }
+
+                    const gradient = ctx.createRadialGradient(
+                        particle.x, particle.y, 0,
+                        particle.x, particle.y, particle.radius
+                    );
+                    gradient.addColorStop(0, `hsla(${particle.hue}, 70%, 70%, 0.8)`);
+                    gradient.addColorStop(1, `hsla(${particle.hue}, 70%, 70%, 0)`);
+
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        window.addEventListener("DOMContentLoaded", function () {
+            initBackground();
+        });
+    </script>
+</body>
+</html>

@@ -694,6 +694,61 @@
             opacity: 0;
         }
 
+        /* Стили для навигации */
+        .nav-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button i {
+            font-size: 16px;
+        }
+
         @media (max-width: 576px) {
             .card {
                 padding: 24px 18px;
@@ -743,6 +798,18 @@
                 padding: 14px 20px;
                 gap: 12px;
             }
+
+            .nav-container {
+                top: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+
+            .nav-button {
+                padding: 10px 16px;
+                font-size: 13px;
+                border-radius: 14px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -789,6 +856,20 @@
                 font-size: 14px;
                 padding: 18px;
             }
+
+            .nav-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+
+            .nav-button {
+                margin: 0;
+            }
         }
     </style>
 </head>
@@ -799,7 +880,20 @@
         <canvas id="backgroundCanvas"></canvas>
     </div>
 
-    <div class="container">
+    <!-- Навигация -->
+    <div class="nav-container">
+        <a href="about.html" class="nav-button">
+            <i class="fas fa-info-circle"></i>
+            О нас
+        </a>
+        <a href="terms.html" class="nav-button">
+            <i class="fas fa-file-contract"></i>
+            Условия использования
+        </a>
+    </div>
+
+    <!-- Главная страница -->
+    <div class="container" id="mainPage">
         <div class="logo">
             <h1><i class="fas fa-link"></i> Link Compressor</h1>
             <p th:text="#{main.info.message}">Shorten your links in seconds</p>
