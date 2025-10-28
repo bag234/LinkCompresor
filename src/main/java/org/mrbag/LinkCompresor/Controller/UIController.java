@@ -58,6 +58,9 @@ public class UIController {
 		if(id.equals("Error"))
 			return "Error";
 		
+		if(id.contains(".html"))
+			return id.replace(".html", "");
+		
 		if(id.length() != 5)
 			return "redirect:/";
 	
