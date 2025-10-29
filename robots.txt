@@ -1,6 +1,14 @@
 User-agent: *
+Disallow: /wp-admin/
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /cgi-bin/
+Disallow: /tmp/
+Disallow: /private/
+Allow: /wp-admin/admin-ajax.php
 
-Allow: /
 
 Sitemap: https://l.mrbag.org/sitemap.xml
 Host: l.mrbag.org
+Crawl-delay: 10
