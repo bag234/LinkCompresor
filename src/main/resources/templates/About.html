@@ -114,7 +114,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .hero-badge {
+        .hero-badge .badge-link{
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -131,10 +131,11 @@
             overflow: hidden;
             transform: translateY(20px);
             opacity: 0;
+            text-decoration: none;
             animation: slideUp 0.8s ease 0.2s forwards;
         }
 
-        .hero-badge::before {
+        .hero-badge .badge-link::before {
             content: '';
             position: absolute;
             top: 0;
@@ -450,9 +451,11 @@
     <div class="container">
         <!-- Внедренный элемент hero-badge -->
         <div class="hero-badge">
-            <i class="fas fa-rocket"></i>
-            MRBAG STUDIO
-        </div>
+  <a href="https://www.mrbag.org" class="badge-link" target="_blank" rel="noopener noreferrer">
+    <i class="fas fa-rocket"></i>
+    MRBAG STUDIO
+  </a>
+</div>
         
         <div class="page-card">
             <div class="page-content">
@@ -478,17 +481,9 @@
                 
                 <h2><i class="fas fa-users"></i> Наша команда</h2>
                 <p>Мы — команда энтузиастов, которые верят в простые и эффективные решения. Наша цель — сделать интернет более удобным и доступным для всех пользователей. Мы постоянно работаем над улучшением сервиса и добавлением новых функций.</p>
-                
-                <a href="Index.html" class="back-button">
-                    <i class="fas fa-arrow-left"></i> На главную
-                </a>
             </div>
         </div>
     </div>
-
-    <footer>
-        Link Compressor &copy; 2025 &mdash; <a href="mailto:link-compressor@mrbag.org">link-compressor@mrbag.org</a>
-    </footer>
 
     <script>
         function initBackground() {

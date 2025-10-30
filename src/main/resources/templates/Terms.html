@@ -103,7 +103,7 @@
             border-radius: 16px;
             cursor: pointer;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 400;
             transition: var(--transition);
             text-decoration: none;
             display: flex;
@@ -114,7 +114,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .hero-badge {
+        .hero-badge .badge-link{
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -131,10 +131,11 @@
             overflow: hidden;
             transform: translateY(20px);
             opacity: 0;
+            text-decoration: none;
             animation: slideUp 0.8s ease 0.2s forwards;
         }
 
-        .hero-badge::before {
+        .hero-badge .badge-link::before {
             content: '';
             position: absolute;
             top: 0;
@@ -450,9 +451,12 @@
     <div class="container">
         <!-- Добавленный элемент hero-badge -->
         <div class="hero-badge">
-            <i class="fas fa-rocket"></i>
-            MRBAG STUDIO
-        </div>
+  <a href="https://www.mrbag.org" class="badge-link" target="_blank" rel="noopener noreferrer">
+    <i class="fas fa-rocket"></i>
+    MRBAG STUDIO
+  </a>
+</div>
+
         
         <div class="page-card">
             <div class="page-content">
@@ -490,10 +494,6 @@
                 <p>Если у вас есть вопросы относительно этих условий, пожалуйста, свяжитесь с нами по адресу: <a href="mailto:link-compressor@mrbag.org">link-compressor@mrbag.org</a>. Мы постараемся ответить на ваше сообщение в кратчайшие сроки.</p>
                 
                 <p><strong>Дата последнего обновления:</strong> 21 октября 2025 года</p>
-                
-                <a href="Index.html" class="back-button">
-                    <i class="fas fa-arrow-left"></i> На главную
-                </a>
             </div>
         </div>
     </div>
