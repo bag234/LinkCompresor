@@ -5,7 +5,7 @@ services:
     image: localhost:5500/link-comp:latest
     container_name: link-compress
     ports:
-      - "8884:8080"
+      - "127.0.0.1:8884:8080"
     environment:
       - APP_DOMAIN=l.mrbag.org
       - APP_DATA_MAIN=redis://redis:6379/1
