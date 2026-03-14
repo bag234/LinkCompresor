@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Переадресация...</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="https://l.mrbag.org/favicon.ico" type="image/x-icon">
   <style>
@@ -155,11 +154,42 @@
       <button id="backBtn" class="back-button" th:text="#{redirect.back}" onclick="window.location.href='/'">Вернуться назад</button>
     </div>
   </div>
-  
+  <script th:inline="javascript">
+    let countdown = 10;
+    const countdownEl = document.getElementById('countdown');
+    const redirectBtn = document.getElementById('redirectBtn');
+    const backBtn = document.getElementById('backBtn');
+    const waitText = document.getElementById('wait-text');
+
+    const redirectUrl = [[${Link.link}]];
+    const waitFallBack = [[#{redirect.fallback}]];
+    const homeUrl = "";
+
+    const timer = setInterval(() => {
+      countdown--;
+      countdownEl.textContent = countdown;
+
+      if (countdown <= 0) {
+        clearInterval(timer);
+
+        redirectBtn.style.display = 'inline-block';
+        waitText.textContent = waitFallBack;
+
+        window.location.href = redirectUrl;
+      }
+    }, 1000);
+
+    redirectBtn.addEventListener('click', () => {
+      window.location.href = redirectUrl;
+    });
+
+
+    backBtn.addEventListener('click', () => {
+      window.history.back();
+    });
+  </script>
+
   <script>
-
-    
-
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
 
