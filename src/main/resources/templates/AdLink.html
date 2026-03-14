@@ -115,27 +115,29 @@
       transform: translateY(0);
     }
 
+    /* Контейнеры для боковых баннеров */
     .banner-left, .banner-right {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 160px;
-  height: 600px;
-  z-index: 9999;
-}
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 160px;
+      height: 600px;
+      z-index: 9999;
+    }
 
-.banner-left {
-  left: 10px;
-}
+    .banner-left {
+      left: 10px;
+    }
 
-.banner-right {
-  right: 10px;
-}
-@media (max-width: 1024px) {
-  .banner-left, .banner-right {
-    display: none;
-  }
-}
+    .banner-right {
+      right: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .banner-left, .banner-right {
+        display: none;
+      }
+    }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -146,6 +148,36 @@
 <body>
   <canvas id="particles"></canvas>
 
+  <div class="banner-left">
+    <script>
+      (function(mzqef){
+        var d = document,
+            s = d.createElement('script'),
+            l = d.scripts[d.scripts.length - 1];
+        s.settings = mzqef || {};
+        s.src = "\/\/simplisticpride.com\/bXXyVis.djGGlp0bYpW\/cn\/Kermn9du_ZsUfl\/kyPcT-YY4\/NAjKgA4-ODDtUNtVNSjUg\/2VO\/DIgI4\/OCQl";
+        s.async = true;
+        s.referrerPolicy = 'no-referrer-when-downgrade';
+        l.parentNode.insertBefore(s, l);
+      })({})
+    </script>
+  </div>
+
+  <div class="banner-right">
+    <script>
+      (function(mzqef){
+        var d = document,
+            s = d.createElement('script'),
+            l = d.scripts[d.scripts.length - 1];
+        s.settings = mzqef || {};
+        s.src = "\/\/simplisticpride.com\/bXXyVis.djGGlp0bYpW\/cn\/Kermn9du_ZsUfl\/kyPcT-YY4\/NAjKgA4-ODDtUNtVNSjUg\/2VO\/DIgI4\/OCQl";
+        s.async = true;
+        s.referrerPolicy = 'no-referrer-when-downgrade';
+        l.parentNode.insertBefore(s, l);
+      })({})
+    </script>
+  </div>
+
   <div class="redirect-box">
     <h1><span th:text="#{redirect.header}">Вы будете перенаправлены через </span> <span id="countdown">10</span> <span th:text="#{redirect.header.seconds}">секунд...</span></h1>
     <p id="wait-text" th:text="#{redirect.wait}">Пожалуйста, подождите...</p>
@@ -154,6 +186,7 @@
       <button id="backBtn" class="back-button" th:text="#{redirect.back}" onclick="window.location.href='/'">Вернуться назад</button>
     </div>
   </div>
+
   <script th:inline="javascript">
     let countdown = 10;
     const countdownEl = document.getElementById('countdown');
@@ -183,12 +216,12 @@
       window.location.href = redirectUrl;
     });
 
-
     backBtn.addEventListener('click', () => {
       window.history.back();
     });
   </script>
 
+  <!-- Скрипт для анимации частиц -->
   <script>
     const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
