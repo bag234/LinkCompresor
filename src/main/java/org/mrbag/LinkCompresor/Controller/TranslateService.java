@@ -20,12 +20,15 @@ class InfoMessages {
 	Set<String> enMessages = new HashSet<String>();
 	
 	public InfoMessages(ResourceLoader load) throws FileNotFoundException, IOException {
-		Scanner rus = new Scanner(load.getResource("classpath:ruinfo.txt").getInputStream());
-		Scanner ens = new Scanner(load.getResource("classpath:eninfo.txt").getInputStream());
-		while (rus.hasNextLine())
-			ruMessages.add(rus.nextLine());
-		while (ens.hasNextLine())
-			enMessages.add(ens.nextLine());	
+
+		try (Scanner rus = new Scanner(load.getResource("classpath:ruinfo.txt").getInputStream())){
+			while (rus.hasNextLine())
+				ruMessages.add(rus.nextLine());
+		}
+		try (Scanner ens = new Scanner(load.getResource("classpath:eninfo.txt").getInputStream())){
+			while (ens.hasNextLine())
+				enMessages.add(ens.nextLine());
+		}
 	}
 	
 	public InfoMessages(String rus, String eng) {

@@ -3,6 +3,7 @@ package org.mrbag.LinkCompresor;
 import org.mrbag.LinkCompresor.Entity.IStringKeyGenerator;
 import org.mrbag.LinkCompresor.Entity.Link;
 import org.mrbag.LinkCompresor.Entity.StringKeyGenerator.XorShiftStringGenerator;
+import org.mrbag.LinkCompresor.Layer.Layer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -63,6 +64,21 @@ public class LinkRepoConfig {
 		temp.setConnectionFactory(conf);
 		temp.setKeySerializer(new StringRedisSerializer());
 		temp.setValueSerializer(new StringRedisSerializer());
+		
+		return temp;
+	}
+
+	@Bean("Layer")
+	RedisTemplate<String, Layer> layerRedisTemplate(@Qualifier("aliasConfig") RedisConnectionFactory conf){
+		RedisTemplate<String, Layer> temp = new RedisTemplate<>();
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+		temp.setConnectionFactory(conf);
+		temp.setKeySerializer(new StringRedisSerializer());
+		temp.setValueSerializer(new Jackson2JsonRedisSerializer<Layer>(mapper, Layer.class));
 		
 		return temp;
 	}

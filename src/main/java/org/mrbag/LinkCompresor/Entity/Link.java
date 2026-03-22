@@ -24,7 +24,14 @@ public class Link {
 	private String uidDevice;
 	
 	@Builder.Default
+	private Boolean layer = false;
+
+	@Builder.Default
 	private LocalDateTime ctime = LocalDateTime.now();
 
+	public boolean isLayer(){
+		return layer == null ? false : layer;
+	}
+	
 }
 

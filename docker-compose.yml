@@ -20,6 +20,12 @@ services:
       - SPRING_BOOT_ADMIN_CLIENT_PASSWORD=app-supet-p@22w0rd
 
       - APP_HTTPS=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 1m
+      timeout: 15s
+      retries: 5
+      start_period: 15s
 
   redis:
     image: redis:8
