@@ -7,6 +7,7 @@ services:
     ports:
       - "127.0.0.1:8884:8080"
       - "10.13.4.165:8884:8080"
+    restart: unless-stopped
     environment:
       - APP_DOMAIN=l.mrbag.org
       - APP_DATA_MAIN=redis://redis:6379/1
