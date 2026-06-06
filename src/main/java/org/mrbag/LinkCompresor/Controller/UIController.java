@@ -1,6 +1,10 @@
 package org.mrbag.LinkCompresor.Controller;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.mrbag.LinkCompresor.LinkRepository;
 import org.mrbag.LinkCompresor.Entity.KeyLinkAttach;
@@ -9,6 +13,8 @@ import org.mrbag.LinkCompresor.Entity.Link;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +31,14 @@ public class UIController {
 	
 	final String url;
 	
+	final Set<String> resource;
+
 	public UIController(
 			@Value("${app.domain}") String url, 
 			@Value("${app.https}") boolean hasHttps
-			) {
+			) throws IOException {
+		Resource[] staticresources = ResourcePatternUtils.getResourcePatternResolver(null).getResources("classpath:/*/*");
+		resource = Arrays.stream(staticresources).map(sr -> sr.getFilename().toLowerCase()).filter(s -> s.contains(".")).collect(Collectors.toSet());
 		this.url = String.format("%s://%s/", hasHttps ? "https" : "http",  url);
 	}
 	
@@ -57,10 +67,10 @@ public class UIController {
 	public String redirectToPageConntroller(@PathVariable("id") String id, Model model) {
 		if(id.equals("Error"))
 			return "Error";
-		
-		if(id.contains(".html"))
-			return id.replace(".html", "");
-		
+		if(resource.contains(id.toLowerCase()))
+			if(id.contains(".html"))
+				return id;
+
 		if(id.length() != 5)
 			return "redirect:/";
 	

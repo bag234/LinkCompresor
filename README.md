@@ -1,3 +1,10 @@
+# Ревизии
+| Версия | Дата | Изменение |
+| --- | --- | --- |
+| 1.0.2 | 06.06.2026 | Обновления способа хранения и обработки статики |
+
+
+---
 # LinkCompresor
 
 > Сервис для сокращения длинных ссылок.
@@ -127,5 +134,4 @@ Content-Type: application/json
 - `APP_DOMAIN` — домен приложения
 - `APP_DATA_MAIN` — строка подключения к Redis (основное хранилище)
 - `APP_DATA_ALIAS` — строка подключения к Redis (алиасы)
-- `SPRING_BOOT_ADMIN_CLIENT_URL` — URL Spring Boot Admin
 - `APP_HTTPS` — использовать ли HTTPS

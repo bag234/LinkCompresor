@@ -10,14 +10,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class LinkRepository {
 
+	@Getter
 	private final RedisTemplate<String, Link> links;  
 	
+	@Getter
 	private final RedisTemplate<String, String> alias;
 	
 	private final IStringKeyGenerator generator; 
@@ -26,6 +29,7 @@ public class LinkRepository {
 
 	private final int MAX_STEP_UNIQUE = 20;
 	
+
 	public LinkRepository(
 			@Qualifier("mainTemplate") RedisTemplate<String, Link> template,
 			@Qualifier("aliasTemplate") RedisTemplate<String, String> alias,
@@ -49,7 +53,7 @@ public class LinkRepository {
 			if (i >= MAX_STEP_UNIQUE) {
 				log.warn("OWERFLOW List for save data");
 			
-				throw new RuntimeException("Wrong data, pleas late");
+				throw new RuntimeException("Wrong data, pleas later");
 			}
 		}
 		

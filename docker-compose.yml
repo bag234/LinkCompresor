@@ -1,38 +1,30 @@
 version: '3.8'
 
 services:
-  app:
+  
+  linkcompressor:
     image: localhost:5500/link-comp:latest
     container_name: link-compress
     ports:
       - "127.0.0.1:8884:8080"
-      - "10.13.4.165:8884:8080"
     restart: unless-stopped
     environment:
       - APP_DOMAIN=l.mrbag.org
       - APP_DATA_MAIN=redis://redis:6379/1
       - APP_DATA_ALIAS=redis://redis:6379/2
-      #Admin
-      - SPRING_BOOT_ADMIN_CLIENT_URL=http://10.13.5.108:8084
-      - SPRING_BOOT_ADMIN_CLIENT_INSTANCE_SERVICE-URL=http://10.13.4.165:8884/
-      - SPRING_BOOT_ADMIN_CLIENT_INSTANCE_MANAGEMENT-URL=http://10.13.4.165:8884/actuator
-      - SPRING_BOOT_ADMIN_CLIENT_INSTANCE_HEALTH-URL=http://10.13.4.165:8884/actuator/health
-      - SPRING_BOOT_ADMIN_CLIENT_USERNAME=app
-      - SPRING_BOOT_ADMIN_CLIENT_PASSWORD=app-supet-p@22w0rd
-
-      - APP_HTTPS=false
+      - APP_HTTPS=true
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
       interval: 1m
       timeout: 15s
       retries: 5
       start_period: 15s
 
-  redis:
-    image: redis:8
-    container_name: redis
+  redis_link:
+    image: redis:7
+    container_name: redis_link
     volumes:
-      - redis-data:/data
+      - redis_link:/data
 
 volumes:
-  redis-data:
+  redis_link:
