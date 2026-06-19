@@ -3,7 +3,7 @@ version: '3.8'
 services:
   
   linkcompressor:
-    image: localhost:5500/link-comp:latest
+    image: registry.mrbag.org/link-comp:latest
     container_name: link-compress
     ports:
       - "127.0.0.1:8884:8080"
