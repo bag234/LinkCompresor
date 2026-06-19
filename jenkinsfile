@@ -17,9 +17,10 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: "${REPO_BRANCH}", credentialsId: 'bag234-git-key', url: "${REPO_URL}"
+            }  // <-- Здесь была пропущена скобка
         }
 
-        stage ('java build') {
+        stage('java build') {
             steps {
                 sh 'mvn clean package -DskipTests'
             }
@@ -34,40 +35,40 @@ pipeline {
                     }
                 }
             }
-        }
+        }  // <-- Вот эту скобку вы потеряли
 
         stage('Deploy') {
-    steps {
-        sshPublisher(
-            publishers: [
-                sshPublisherDesc(
-                    configName: "${SSH_SERVER}",
-                    transfers: [
-                        sshTransfer(
-                            sourceFiles: "docker-compose.yml",
-                            remoteDirectory: "${REMOTE_DIR}",
-                            execCommand: """
-                                mkdir -p ${REMOTE_DIR} && cd ${REMOTE_DIR} && docker compose pull && docker compose up -d --force-recreate
-                            """
-                        ),
-                        sshTransfer(
-                            sourceFiles: "nginx.conf",
-                            remoteDirectory: "${REMOTE_DIR}",
-                            execCommand: """
-                                mv ~/${REMOTE_DIR}/nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
-                                ln -sf /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
-                                sudo nginx -t && sudo nginx -s reload
-                            """
+            steps {
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: "${SSH_SERVER}",
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: "docker-compose.yml",
+                                    remoteDirectory: "${REMOTE_DIR}",
+                                    execCommand: """
+                                        mkdir -p ${REMOTE_DIR} && cd ${REMOTE_DIR} && docker compose pull && docker compose up -d --force-recreate
+                                    """
+                                ),
+                                sshTransfer(
+                                    sourceFiles: "nginx.conf",
+                                    remoteDirectory: "${REMOTE_DIR}",
+                                    execCommand: """
+                                        mv ~/${REMOTE_DIR}/nginx.conf /etc/nginx/sites-available/${REMOTE_DIR}.conf && \
+                                        ln -sf /etc/nginx/sites-available/${REMOTE_DIR}.conf /etc/nginx/sites-enabled/${REMOTE_DIR}.conf && \
+                                        sudo nginx -t && sudo nginx -s reload
+                                    """
+                                )
+                            ],
+                            usePromotionTimestamp: false,
+                            useWorkspaceInPromotion: false,
+                            verbose: true
                         )
-                    ],
-                    usePromotionTimestamp: false,
-                    useWorkspaceInPromotion: false,
-                    verbose: true
+                    ]
                 )
-            ]
-        )
-    }
-}
+            }
+        }
     }
 
     post {
