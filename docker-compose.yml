@@ -1,30 +1,30 @@
-version: '3.8'
+  version: '3.8'
 
-services:
-  
-  linkcompressor:
-    image: registry.mrbag.org/link-comp:latest
-    container_name: link-compress
-    ports:
-      - "127.0.0.1:8884:8080"
-    restart: unless-stopped
-    environment:
-      - APP_DOMAIN=l.mrbag.org
-      - APP_DATA_MAIN=redis://redis:6379/1
-      - APP_DATA_ALIAS=redis://redis:6379/2
-      - APP_HTTPS=true
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
-      interval: 1m
-      timeout: 15s
-      retries: 5
-      start_period: 15s
+  services:
+    
+    linkcompressor:
+      image: registry.mrbag.org/link-comp:latest
+      container_name: link-compress
+      ports:
+        - "127.0.0.1:8884:8080"
+      restart: unless-stopped
+      environment:
+        - APP_DOMAIN=l.mrbag.org
+        - APP_DATA_MAIN=redis://:@redis_link:6379/1
+        - APP_DATA_ALIAS=redis://:@redis_link:6379/2
+        - APP_HTTPS=true
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+        interval: 1m
+        timeout: 15s
+        retries: 5
+        start_period: 15s
 
-  redis_link:
-    image: redis:7
-    container_name: redis_link
-    volumes:
-      - redis_link:/data
+    redis_link:
+      image: redis:7
+      container_name: redis_link
+      volumes:
+        - redis_link:/data
 
-volumes:
-  redis_link:
+  volumes:
+    redis_link:
